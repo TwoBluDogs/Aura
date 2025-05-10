@@ -103,7 +103,7 @@ AnimatedJokers = {
     j_diet_cola = { frames = 20 },
     j_trading = {},
     j_flash = { frames_per_row = 13, frames = 26, individual = true, immediate = true },
-    j_popcorn = {}, -- todo: change sprite as it is used
+    j_popcorn = { frames = 5, individual = true },
     j_trousers = { frames = 48 },
     j_ancient = {},
     j_ramen = {},
@@ -738,6 +738,22 @@ function Card:calculate_joker(context)
             self.animation = { target = 3 }
         end
         if self.ability.extra == 2 then
+            Aura.add_individual(self)
+            self.animation = { target = 4 }
+        end
+    end
+
+    if self.ability.name == "Popcorn" and context.end_of_round then
+        if self.ability.mult == 16 then
+            Aura.add_individual(self)
+            self.animation = { target = 1 }
+        elseif self.ability.mult == 12 then
+            Aura.add_individual(self)
+            self.animation = { target = 2 }
+        elseif self.ability.mult == 8 then
+            Aura.add_individual(self)
+            self.animation = { target = 3 }
+        elseif self.ability.mult == 4 then
             Aura.add_individual(self)
             self.animation = { target = 4 }
         end
