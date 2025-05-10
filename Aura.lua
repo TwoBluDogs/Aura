@@ -56,7 +56,7 @@ AnimatedJokers = {
     j_burglar = { frames_per_row = 19, frames = 76 },
     j_blackboard = { frames_per_row = 9, frames = 59, individual = true },
     j_runner = {},
-    j_ice_cream = {}, -- todo: change sprite as it is used
+    j_ice_cream = { frames = 10, individual = true}, -- todo: add actual art
     j_dna = { frames = 11 },
     j_splash = {},
     j_blue_joker = {},
@@ -103,7 +103,7 @@ AnimatedJokers = {
     j_diet_cola = { frames = 20 },
     j_trading = {},
     j_flash = { frames_per_row = 13, frames = 26, individual = true, immediate = true },
-    j_popcorn = { frames = 5, individual = true },
+    j_popcorn = { frames = 5, individual = true }, -- todo: add actual art
     j_trousers = { frames = 48 },
     j_ancient = {},
     j_ramen = {},
@@ -720,7 +720,7 @@ function Card:calculate_joker(context)
         end
     end
 
-    if self.ability.name == "Seltzer" and context.cardarea == G.jokers then
+    if self.ability.name == "Seltzer" and context.cardarea == G.jokers and context.after and not context.blueprint then
         if self.ability.extra == (10 or 9) then
             Aura.add_individual(self)
             self.animation = { target = 0 }
@@ -756,6 +756,37 @@ function Card:calculate_joker(context)
         elseif self.ability.mult == 4 then
             Aura.add_individual(self)
             self.animation = { target = 4 }
+        end
+    end
+
+    if self.ability.name == "Ice Cream" and context.cardarea == G.jokers and context.after and not context.blueprint then
+        if self.ability.extra.chips == 90 then
+            Aura.add_individual(self)
+            self.animation = { target = 1 }
+        elseif self.ability.extra.chips == 80 then
+            Aura.add_individual(self)
+            self.animation = { target = 2 }
+        elseif self.ability.extra.chips == 70 then
+            Aura.add_individual(self)
+            self.animation = { target = 3 }
+        elseif self.ability.extra.chips == 60 then
+            Aura.add_individual(self)
+            self.animation = { target = 4 }
+        elseif self.ability.extra.chips == 50 then
+            Aura.add_individual(self)
+            self.animation = { target = 5 }
+        elseif self.ability.extra.chips == 40 then
+            Aura.add_individual(self)
+            self.animation = { target = 6 }
+        elseif self.ability.extra.chips == 30 then
+            Aura.add_individual(self)
+            self.animation = { target = 7 }
+        elseif self.ability.extra.chips == 20 then
+            Aura.add_individual(self)
+            self.animation = { target = 8 }
+        elseif self.ability.extra.chips == 10 then
+            Aura.add_individual(self)
+            self.animation = { target = 9 }
         end
     end
 
