@@ -108,7 +108,7 @@ AnimatedJokers = {
     j_ancient = {},
     j_ramen = {},
     j_walkie_talkie = {},
-    j_selzer = { frames = 5, individual = true },
+    j_selzer = { frames = 5 }, -- todo: add actual art (also localthunk forgot the t in here)
     j_castle = { frames_per_row = 9, frames = 69, start_frame = 0, extra = { frames_per_row = 5, frames = 5, fps = 5, start_frame = 0 } },
     j_smiley = { frames_per_row = 13, frames = 150 },
     j_campfire = {},
@@ -720,29 +720,6 @@ function Card:calculate_joker(context)
         end
     end
 
-    if self.ability.name == "Seltzer" and context.cardarea == G.jokers and context.after and not context.blueprint then
-        if self.ability.extra == (10 or 9) then
-            Aura.add_individual(self)
-            self.animation = { target = 0 }
-        end
-        if self.ability.extra == 8 then
-            Aura.add_individual(self)
-            self.animation = { target = 1 }
-        end
-        if self.ability.extra == 6 then
-            Aura.add_individual(self)
-            self.animation = { target = 2 }
-        end
-        if self.ability.extra == 4 then
-            Aura.add_individual(self)
-            self.animation = { target = 3 }
-        end
-        if self.ability.extra == 2 then
-            Aura.add_individual(self)
-            self.animation = { target = 4 }
-        end
-    end
-
     if self.ability.name == "Popcorn" and context.end_of_round then
         if self.ability.mult == 16 then
             Aura.add_individual(self)
@@ -792,6 +769,51 @@ function Card:calculate_joker(context)
 
     return ret1, ret2
 end
+
+-- set up sel(t)zer atlases
+SMODS.Atlas {
+    key = "j_selzer_2",
+    path = "j_selzer_2" .. ".png",
+    px = 71,
+    py = 95
+}
+SMODS.Atlas {
+    key = "j_selzer_3",
+    path = "j_selzer_3" .. ".png",
+    px = 71,
+    py = 95
+}
+SMODS.Atlas {
+    key = "j_selzer_4",
+    path = "j_selzer_4" .. ".png",
+    px = 71,
+    py = 95
+}
+SMODS.Atlas {
+    key = "j_selzer_5",
+    path = "j_selzer_5" .. ".png",
+    px = 71,
+    py = 95
+}
+
+SMODS.Joker:take_ownership('j_selzer',
+    {
+        update = function (self, card, dt)
+            if card.ability then
+                if card.ability.extra == 8 then
+                    card.children.center.atlas = G.ASSET_ATLAS['aura_j_selzer_2']
+                elseif card.ability.extra == 6 then
+                    card.children.center.atlas = G.ASSET_ATLAS['aura_j_selzer_3']
+                elseif card.ability.extra == 4 then
+                    card.children.center.atlas = G.ASSET_ATLAS['aura_j_selzer_4']
+                elseif card.ability.extra == 2 then
+                    card.children.center.atlas = G.ASSET_ATLAS['aura_j_selzer_5']
+                end
+            end
+            
+        end
+    }
+)
 
 SMODS.Joker:take_ownership('loyalty_card',
     { -- the table of properties you want to change
